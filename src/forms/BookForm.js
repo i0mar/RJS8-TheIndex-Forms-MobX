@@ -20,6 +20,16 @@ class BookForm extends Component {
     this.setState({[event.target.name]: event.target.value});
   };
 
+  getAllColors = () => {
+    let colors = [];
+    bookStore.books.forEach(book => {
+      if (!colors.includes(book.color))
+      colors.unshift(book.color);
+    });
+
+    return colors.map(color => <option>{color}</option>);
+  };
+
   render() {
     console.log(this.props);
     return (
@@ -44,12 +54,7 @@ class BookForm extends Component {
             </div>
             <select className="form-control" name="color" onChange={this.textChangeHandler} required>
               <option></option>
-              <option>red</option>
-              <option>yellow</option>
-              <option>green</option>
-              <option>black</option>
-              <option>white</option>
-              <option>blue</option>
+              {this.getAllColors()}
             </select>
           </div>
           <input type="submit" />
