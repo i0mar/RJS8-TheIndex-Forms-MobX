@@ -9,10 +9,11 @@ class BookForm extends Component {
     color: ""
   };
 
-  submitAuthor = async event => {
+  submitBook = async event => {
     event.preventDefault();
     await bookStore.addBook(this.state, this.props.author.id);
-    this.props.closeModal();
+    if (!bookStore.errors)
+      this.props.closeModal();
   };
 
   textChangeHandler = event => {
@@ -23,7 +24,14 @@ class BookForm extends Component {
     console.log(this.props);
     return (
       <div className="mt-5 p-2">
-        <form onSubmit={this.submitAuthor}>
+        <form onSubmit={this.submitBook}>
+        {bookStore.errors && (
+          <div className="alert alert-danger" role="alert">
+            {bookStore.errors.map(error => (
+              <p key={error}>{error}</p>
+            ))}
+          </div>
+        )}
           <div className="input-group mb-3">
             <div className="input-group-prepend">
               <span className="input-group-text">Title</span>
